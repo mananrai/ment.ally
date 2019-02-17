@@ -102,19 +102,6 @@ input[type=submit]:hover {
   color: black;
 }
 
-.graph-wrap {
-  background-color: white;
-  color: white;
-  padding-top: 2rem;
-  padding-left: 10rem;
-  padding-right: 10rem;
-  padding-bottom: 2rem;
-  height: auto;
-  display: block;
-  align-items: left;
-  justify-content: auto;
-}
-
 .map-wrap {
   background-color: #2132b2;
   color: white;

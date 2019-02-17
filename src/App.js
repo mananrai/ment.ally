@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import './App.css';
 // import './Chart.js'
 
+// var express = require('express');
+// var cors = require('cors');
+// var app = express();
+// app.use(cors());
+
 var Chart = require('chart.js');
 
 class App extends React.Component {
@@ -91,6 +96,10 @@ class App extends React.Component {
     // data_vals = input
 
     var input = data_vals
+    if (!input || input.length === undefined || input.length === 0) {
+      input = [40, 5, 70, 45, 50, 75, 90]
+      data_vals = [40, 5, 70, 45, 50, 75, 90]
+    }
     
     // data_vals[input.length + 1] = input[input.length-1]
     console.log(data_vals)
@@ -488,34 +497,89 @@ class App extends React.Component {
     event.preventDefault();
   }
 
+  // render() {
+  //   return (
+  //     <div className="background">
+  //       <div class="intro">
+  //         <p>ment.ally</p>
+  //         <div id="my-login-button-target" />
+  //       </div>
+
+  //       <div class="form-wrap">
+  //         <form onSubmit={this.handleSubmit}>
+  //           <label>
+  //             <textarea value={this.state.value} onChange={this.handleChange} placeholder={this.state.placeholder} />
+  //           </label>
+  //           <div>
+  //             <input type="submit" value="Submit" />
+  //           </div>
+  //         </form>
+  //         <form onSubmit={this.handlePlotRequest}>
+  //           <input type="submit" value="Plot" />
+  //         </form>
+  //       </div>
+
+  //       <div class="map-wrap">
+  //         <canvas id="myChart"></canvas>
+  //       </div>
+
+  //       <div class="map-wrap">
+  //         <div id="viewDiv"></div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
   render() {
     return (
       <div className="background">
         <div class="intro">
-          <p>ment.ally</p>
+        <h1>ment.ally</h1>
+          <p>Helping induvuduals visualize and track their emotions through the text they write.</p>
           <div id="my-login-button-target" />
         </div>
 
-        <div class="form-wrap">
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              <textarea value={this.state.value} onChange={this.handleChange} placeholder={this.state.placeholder} />
-            </label>
-            <div>
-              <input type="submit" value="Submit" />
-            </div>
-          </form> 
-          <form onSubmit={this.handlePlotRequest}>
-            <input type="submit" value="Plot" />
-          </form>
+        <div class="row">
+          <div class="column">
+              <form onSubmit={this.handleSubmit}>
+                <label>
+                  <textarea class="sentence-entry" value={this.state.value} onChange={this.handleChange} placeholder={this.state.placeholder} />
+                </label>
+                <div>
+                  <input type="submit" value="Submit" />
+                </div>
+              </form>
+              <form onSubmit={this.handlePlotRequest}>
+                <input type="submit" value="Plot" />
+              </form>
+          </div>
+          <div class="column2">
+            <h1>What if you could rethink your emotionally charged messages while using the information meaningfully? </h1>
+            <p>ment.ally is a web app that allows you to view the emotions behind the messages you write. Using the data, it graphs your emotions as a visual way to check in on how you are doing. A map integration shows location-based trends in emotions and a texting feature notifies your friends when you seem to be feeling down. </p>
+            <p> Looking forward, we hope that this can become a Chrome extension that detects emotionally charged sentences you write in real time and offers alternate suggestions to reduce the chance of unintended miscommunication.</p>
+          </div>
         </div>
 
-        <div class="map-wrap">
+        <div class="graph-wrap">
           <canvas id="myChart"></canvas>
         </div>
 
         <div class="map-wrap">
           <div id="viewDiv"></div>
+        </div>
+
+        <div class="emergency-contacts">
+          <p>Enter your emergency contacts</p>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <textarea class="contacts-entry" value={this.state.value} onChange={this.handleChange} placeholder="Enter phone number" />
+            </label>
+            <div>
+              <input type="submit" class="add-contacts" value="Add" />
+              <input type="submit" class="add-contacts" value="Add" />
+              <input type="submit" class="add-contacts" value="Add" />
+            </div>
+          </form>
         </div>
       </div>
     );

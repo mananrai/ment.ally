@@ -5,6 +5,7 @@
   "dependencies": {
     "chart.js": "^2.7.3",
     "cors": "^2.8.5",
+    "express": "^4.16.4",
     "fs": "0.0.1-security",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
