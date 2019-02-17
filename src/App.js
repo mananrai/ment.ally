@@ -85,7 +85,6 @@ class App extends React.Component {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'mode': 'no-cors',
       }
@@ -95,6 +94,36 @@ class App extends React.Component {
   }
 
   render() {
+    // var webmap = new WebMap({
+    //   portalItem: {
+    //     id: "60f299d7f5b6427493d40705b67c3d37"
+    //   }
+    // });
+
+    // var view = new MapView({
+    //   map: webmap,
+    //   container: "viewDiv"
+    // });
+
+    // require([
+    //   "esri/views/MapView",
+    //   "esri/WebMap"
+    // ], function(
+    //   MapView, WebMap
+    // ) {
+
+    //   var webmap = new WebMap({
+    //     portalItem: { // autocasts as new PortalItem()
+    //       id: "60f299d7f5b6427493d40705b67c3d37"
+    //     }
+    //   });
+
+    //   var view = new MapView({
+    //     map: webmap,
+    //     container: "viewDiv"
+    //   });
+    // });
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
