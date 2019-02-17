@@ -12,10 +12,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-#viewDiv {
-  padding: 0;
-  margin: 0;
-  height: 500px; /*100%;*/
-  width: 100%;
-}

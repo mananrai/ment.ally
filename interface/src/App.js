@@ -61,6 +61,42 @@ class App extends React.Component {
     // console.log("Submit clicked");
     this.echo(this.state.value);
     var src = {text: this.state.value};
+    var json = this.buildJSON(src);
+    console.log(json);
+    var response = fetch('http://localhost:5000/get_sentiment', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'mode': 'no-cors',
+      },
+      body: JSON.stringify(json.id)
+    });
+    console.log(response);
+    event.preventDefault();
+  }
+
+  handlePlotRequest(event) {
+    // alert('An essay was submitted: ' + this.state.value);
+    // console.log("Submit clicked");
+    var response = fetch('http://localhost:5000/get_sentiment', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'mode': 'no-cors',
+      }
+    });
+    console.log(response);
+    event.preventDefault();
+  }
+
+  handleSubmit(event) {
+    // alert('An essay was submitted: ' + this.state.value);
+    // console.log("Submit clicked");
+    this.echo(this.state.value);
+    var src = {text: this.state.value};
     console.log(this.buildJSON(src));
     event.preventDefault();
   }

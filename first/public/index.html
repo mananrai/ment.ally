@@ -22,43 +22,6 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-
-    <link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
-
-    <script src="https://js.arcgis.com/4.10/"></script>
-
-    <script>
-      require([
-        "esri/views/MapView",
-        "esri/WebMap"
-      ], function(
-        MapView, WebMap
-      ) {
-
-        /************************************************************
-         * Creates a new WebMap instance. A WebMap must reference
-         * a PortalItem ID that represents a WebMap saved to
-         * arcgis.com or an on-premise portal.
-         *
-         * To load a WebMap from an on-premise portal, set the portal
-         * url with esriConfig.portalUrl.
-         ************************************************************/
-        var webmap = new WebMap({
-          portalItem: { // autocasts as new PortalItem()
-            id: "60f299d7f5b6427493d40705b67c3d37"
-          }
-        });
-
-        /************************************************************
-         * Set the WebMap instance to the map property in a MapView.
-         ************************************************************/
-        var view = new MapView({
-          map: webmap,
-          container: "viewDiv"
-        });
-      });
-    </script>
-
     <title>React App</title>
   </head>
   <body>

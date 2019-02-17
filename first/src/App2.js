@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 
+// var cors = require('cors');
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
-      placeholder: 'Type your sentence here to see its emotional rating'
+      value: 'Please write an essay about your favorite DOM element.'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -43,12 +44,12 @@ class App extends React.Component {
 
     var time_json = "{\"documents\":[";
     var lines = src.text.match( /[^\.!\?]+[\.!\?]+|[^\.!\?]+/g );
-    var i = 1;
+    i = 1;
     lines.forEach(line => {
       console.log(line);
       time_json += "{\"id\": \"" + i + "\","; //.format(i);
       time_json += "\"time\": \"" + new Date() + "\"}"; //.format(line);
-      if (i != lines.length) time_json += ",";
+      if (i !== lines.length) time_json += ",";
       i += 1;
     });
     console.log(new Date());
@@ -92,42 +93,55 @@ class App extends React.Component {
     event.preventDefault();
   }
 
-  handleSubmit(event) {
-    // alert('An essay was submitted: ' + this.state.value);
-    // console.log("Submit clicked");
-    this.echo(this.state.value);
-    var src = {text: this.state.value};
-    console.log(this.buildJSON(src));
-    event.preventDefault();
-  }
-
   render() {
+    // var webmap = new WebMap({
+    //   portalItem: {
+    //     id: "60f299d7f5b6427493d40705b67c3d37"
+    //   }
+    // });
+
+    // var view = new MapView({
+    //   map: webmap,
+    //   container: "viewDiv"
+    // });
+
+    // require([
+    //   "esri/views/MapView",
+    //   "esri/WebMap"
+    // ], function(
+    //   MapView, WebMap
+    // ) {
+
+    //   var webmap = new WebMap({
+    //     portalItem: { // autocasts as new PortalItem()
+    //       id: "60f299d7f5b6427493d40705b67c3d37"
+    //     }
+    //   });
+
+    //   var view = new MapView({
+    //     map: webmap,
+    //     container: "viewDiv"
+    //   });
+    // });
+
     return (
-      <div className="background">
-        <div class="intro">
-          <p>ment.ally</p>
-        </div>
-
-        <div class="form-wrap">
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              <textarea value={this.state.value} onChange={this.handleChange} placeholder={this.state.placeholder} />
-            </label>
-            <div>
-              <input type="submit" value="Submit" />
-            </div>
-          </form>
-        </div>
-
-        <div class="map-wrap">
-          <p>map here</p>
-          <div id="viewDiv"></div>
-          <p>map here</p>
-        </div>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Essay:
+            <textarea value={this.state.value} onChange={this.handleChange}></textarea>
+          </label>
+          <input type="submit" value="Submit"></input>
+        </form>
+        <form onSubmit={this.handlePlotRequest}>
+          <input type="submit" value="Plot"></input>
+        </form>
       </div>
     );
   }
 }
+
+/// App.use(cors());
 
 // class App extends Component {
 //   render() {
