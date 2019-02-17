@@ -194,3 +194,7 @@ input[type=submit]:hover {
   color: yellow;
   font-size: 28px;
 }
+
+.button-row {
+  display: flex;
+}

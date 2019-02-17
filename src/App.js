@@ -579,8 +579,8 @@ class App extends React.Component {
       <div className="background">
         <div class="intro">
         <h1>ment.ally</h1>
-          <p>Helping induvuduals visualize and track their emotions through the text they write.</p>
-          <div id="my-login-button-target" />
+          <p>Helping individuals visualize and track their emotions through the text they write.</p>
+        <div id="my-login-button-target" />
         </div>
 
         <div class="row">
@@ -619,10 +619,13 @@ class App extends React.Component {
             <label>
               <textarea class="contacts-entry" value={this.state.value} onChange={this.handleChange} placeholder="Enter phone number" />
             </label>
-            <div>
-              <input type="submit" class="add-contacts" value="Add" />
-              <input type="submit" class="add-contacts" value="Add" />
-              <input type="submit" class="add-contacts" value="Add" />
+            <div class="button-row">
+              <form onSubmit={this.handleSubmit}>
+                <input type="submit" class="add-contacts" value="Submit" />
+              </form>
+              <form onSubmit={this.handleSubmit}>
+                <input type="submit" class="add-contacts" value="Plot" />
+              </form>
             </div>
           </form>
         </div>
