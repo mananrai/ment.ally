@@ -338,7 +338,7 @@ class App extends React.Component {
     }
     // plot_points[input.length+1] = "circle"
     console.log(plot_points)
-    var gradientFill = ctx.createLinearGradient((rect.left+rect.right)/2, rect.top, (rect.left+rect.right)/2, rect.top + rect.bottom*3);
+    var gradientFill = ctx.createLinearGradient((rect.left+rect.right)/2, rect.top, (rect.left+rect.right)/2, rect.top + rect.bottom);
     // gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.6)");
     // gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.6)");
 
@@ -707,9 +707,10 @@ class App extends React.Component {
               </form>
           </div>
           <div class="column2">
-            <h1>What if you could rethink your emotionally charged messages while using the information meaningfully? </h1>
-            <p>ment.ally is a web app that allows you to view the emotions behind the messages you write. Using the data, it graphs your emotions as a visual way to check in on how you are doing. A map integration shows location-based trends in emotions and a texting feature notifies your friends when you seem to be feeling down. </p>
-            <p> Looking forward, we hope that this can become a Chrome extension that detects emotionally charged sentences you write in real time and offers alternate suggestions to reduce the chance of unintended miscommunication.</p>
+            <h1>What if you were shown a mood mirror - a trend of your moods, as perceived by others from the way you communicate? </h1>
+            <p>ment.ally allows you to view the emotions behind the messages you write, and the words you speak. Using data from your daily writings, it graphs your emotions as a visual way to check in on how you are doing. A map integration shows location-based trends in emotions and a texting feature notifies your friends when you seem to be feeling down. </p>
+            <p> Regular check-ins with your doctor are made seamless by our constant weekly psych evals, all obtained through an analysis of your online presence.</p>
+            <p> In the near future, you can hope to see ment.ally leverage a Chrome extension, web app, and mobile platform compatible with your favorite messaging and social apps!</p>
             <div id="set-emoji-here"></div>
           </div>
         </div>

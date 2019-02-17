@@ -57,12 +57,14 @@ def addToList(textScoreList):
 @app.route('/alert_contacts', methods=['GET'])
 def alert_contacts():
 	if request.method == 'GET':
-		requestedName = 'Tiger' #request.args.get('name')
+		requestedName = 'tiger' #request.args.get('name')
 		with open(CONTACTS_FILENAME, mode='r', encoding='utf-8') as contactsFile:
 			contacts = contactsFile.read().split('\n')
+			print(contacts)
 			for contact in contacts:
 				name, contact_1, contact_2 = contact.split()
-				if(name == requestedName):
+				print(name, requestedName)
+				if (name.toLower() == requestedName.toLower()):
 					send_message(name, contact_1)
 					send_message(name, contact_2)
 		return "Success!"
