@@ -593,13 +593,10 @@ class App extends React.Component {
               <form onSubmit={this.handleSubmit}>
                 <input type="submit" value="Submit" />
               </form>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handlePlotRequest}>
                 <input type="submit" value="Plot" />
               </form>
             </div>
-              </form>
-              <form onSubmit={this.handlePlotRequest}>
-                <input type="submit" value="Plot" />
               </form>
           </div>
           <div class="column2">
