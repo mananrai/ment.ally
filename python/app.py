@@ -3,12 +3,14 @@ import http.client, urllib.request, urllib.parse, urllib.error, json
 from os.path import isfile
 from flask import Flask, request, jsonify #import main Flask class and request object
 from flask_cors import CORS
+from send_message import send_message
 
 app = Flask(__name__) #create the Flask app
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SESSION_TYPE'] = 'filesystem'
 CORS(app)
 DATA_FILENAME = "data_sentiment.json"
+CONTACTS_FILENAME = "contacts.json"
 def getSentiments(inputJson):
     headers = {
         # Request headers
@@ -49,6 +51,19 @@ def addToList(textScoreList):
 	with open(DATA_FILENAME, mode='a', encoding='utf-8') as dataFile:
 		for textScore in textScoreList:
 			dataFile.write(str(textScore['score']) + "\n")
+
+@app.route('/alert_contacts', methods=['GET'])
+def alert_contacts():
+	if request.method == 'GET':
+		requestedName = request.args.get('name')
+		with open(CONTACTS_FILENAME, mode='r', encoding='utf-8') as contactsFile:
+			contacts = contactsFile.read().split('\n')
+			for contact in contacts:
+				name, contact_1, contact_2 = contact.split()
+				if(name == requestedName):
+					send_message(name, contact_1)
+					send_message(name, contact_2)
+		return "Success!"
 
 @app.route('/get_sentiment', methods=['GET', 'POST'])
 def get_sentiment():
