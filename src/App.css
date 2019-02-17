@@ -189,3 +189,7 @@ input[type=submit]:hover {
 .column2 p {
   font-family: 'Roboto', sans-serif;
 }
+
+.button-row {
+  display: flex;
+}
