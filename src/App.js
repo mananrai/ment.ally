@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 // import './Chart.js'
 
+// var Houndify = require("houndify");
+
 // var express = require('express');
 // var cors = require('cors');
 // var app = express();
@@ -9,12 +11,16 @@ import './App.css';
 
 var Chart = require('chart.js');
 
+var curr_recording = false;
+var conversationState;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: '',
-      placeholder: 'Type your sentence here to see its emotional rating'
+      placeholder: 'Type your sentence here to see its emotional rating',
+      number: 0
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -476,6 +482,19 @@ class App extends React.Component {
     event.preventDefault();
   }
 
+  doSMS(event) {
+    var response = fetch('http://localhost:5000/alert_contacts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'mode': 'no-cors',
+      }
+    });
+    console.log(response);
+  }
+
   handleSubmit(event) {
     // alert('An essay was submitted: ' + this.state.value);
     // console.log("Submit clicked");
@@ -574,63 +593,94 @@ class App extends React.Component {
   //   );
   // }
 
-  voiceStuff() {
-    var voiceRequest = new Houndify.VoiceRequest({
-    // Your Houndify Client ID
-    clientId: "BUFsi6_wo-dR5b4EesYvKQ==",
+  // voiceStuff() {
+  //   var recorder = new Houndify.AudioRecorder();
+  //   var voiceRequest;
+  //   recorder.on('start', function() {
+  //     var voiceRequest = new Houndify.VoiceRequest({
+  //       // Your Houndify Client ID
+  //       clientId: "BUFsi6_wo-dR5b4EesYvKQ==",
 
-    // For testing environment you might want to authenticate on frontend without Node.js server. 
-    // In that case you may pass in your Houndify Client Key instead of "authURL".
-    // clientKey: "GOSWD00__y0MJG0nVCaVQmlAdT7_nkpaUIqn12negv7KtKPzFpDAh_hdRp8dksaSpkp1QxUYeCzPajJu19cNEw==",
+  //       // For testing environment you might want to authenticate on frontend without Node.js server. 
+  //       // In that case you may pass in your Houndify Client Key instead of "authURL".
+  //       // clientKey: "GOSWD00__y0MJG0nVCaVQmlAdT7_nkpaUIqn12negv7KtKPzFpDAh_hdRp8dksaSpkp1QxUYeCzPajJu19cNEw==",
 
-    // Otherwise you need to create an endpoint on your server
-    // for handling the authentication.
-    // See SDK's server-side method HoundifyExpress.createAuthenticationHandler().
-    authURL: "/houndifyAuth",
+  //       // Otherwise you need to create an endpoint on your server
+  //       // for handling the authentication.
+  //       // See SDK's server-side method HoundifyExpress.createAuthenticationHandler().
+  //       authURL: "/houndifyAuth",
 
-    // Request Info JSON
-    // See https://houndify.com/reference/RequestInfo
-    requestInfo: {
-      UserID: "test_user",
-      Latitude: 37.388309, 
-      Longitude: -121.973968
-    },
+  //       // Request Info JSON
+  //       // See https://houndify.com/reference/RequestInfo
+  //       requestInfo: {
+  //         UserID: "test_user",
+  //         Latitude: 37.388309, 
+  //         Longitude: -121.973968
+  //       },
 
-    // Pass the current ConversationState stored from previous queries
-    // See https://www.houndify.com/docs#conversation-state
-    conversationState: conversationState,
+  //       // Pass the current ConversationState stored from previous queries
+  //       // See https://www.houndify.com/docs#conversation-state
+  //       conversationState: conversationState,
 
-    // Sample rate of input audio
-    sampleRate: 16000,
+  //       // Sample rate of input audio
+  //       sampleRate: 16000,
 
-    // Convert 8/16 kHz mono 16-bit little-endian PCM samples to Speex, default: true.
-    // If set to "false", VoiceRequest.write() will accept raw WAV, Opus or Speex bytes,
-    // and send them to backend without any conversion.
-    // convertAudioToSpeex: true,
+  //       // Convert 8/16 kHz mono 16-bit little-endian PCM samples to Speex, default: true.
+  //       // If set to "false", VoiceRequest.write() will accept raw WAV, Opus or Speex bytes,
+  //       // and send them to backend without any conversion.
+  //       // convertAudioToSpeex: true,
 
-    // Enable Voice Activity Detection, default: true
-    enableVAD: true,
+  //       // Enable Voice Activity Detection, default: true
+  //       enableVAD: true,
 
-    // Partial transcript, response and error handlers
-    onTranscriptionUpdate: function(transcipt) {
-      console.log("Partial Transcript:", transcipt.PartialTranscript);
-    },
+  //       // Partial transcript, response and error handlers
+  //       onTranscriptionUpdate: function(transcipt) {
+  //         console.log("Partial Transcript:", transcipt.PartialTranscript);
+  //       },
 
-    onResponse: function(response, info) {
-      console.log(response);
-      if (response.AllResults && response.AllResults.length) {
-        // Pick and store appropriate ConversationState from the results. 
-        // This example takes the default one from the first result.
-        conversationState = response.AllResults[0].ConversationState;
-      }
-    },
+  //       onResponse: function(response, info) {
+  //         console.log(response);
+  //         if (response.AllResults && response.AllResults.length) {
+  //           // Pick and store appropriate ConversationState from the results. 
+  //           // This example takes the default one from the first result.
+  //           conversationState = response.AllResults[0].ConversationState;
+  //         }
+  //       },
 
-    onError: function(err, info) {
-      console.log(err);
-    }
-  });
+  //       onError: function(err, info) {
+  //         console.log(err);
+  //       }
+  //   });
 
-  }
+  //   recorder.on('data', function(data) {
+  //     voiceRequest.write(data);
+  //    });
+  //   recorder.on('end', function() { ;/* recording stopped, voiceRequest.onResponse() will be called. */ });
+  //   recorder.on('error', function(err) { ;/* recorder error, voiceRequest.onError() will be called. */ });
+
+  //   // Start capturing the audio
+  //   recorder.start();
+
+  //   // Stop capturing the audio
+  //   // recorder.stop();
+
+  //   // Check if recorder is currently capturing the audio
+  //   // recorder.isRecording();
+  //   }
+  // }
+
+  // stopRecording(event) {
+  //   recorder.stop();
+  // }
+
+  // toggleRecording(event) {
+  //   curr_recording = !curr_recording;
+  //   if (!curr_recording) {
+  //     stopRecording(event);
+  //   } else {
+  //     voiceStuff();
+  //   }
+  // }
 
   render() {
     return (
@@ -638,15 +688,6 @@ class App extends React.Component {
         <div class="intro">
         <h1>ment.ally</h1>
           <p>Helping individuals visualize and track their emotions through the text they write.</p>
-          // <div class="socials">
-          //   <a href="#" class="fa fa-github fa-contact"></a>
-          //   <a href="#" class="fa fa-linkedin fa-contact"></a>
-          //   <a href="#" class="fa fa-facebook fa-contact"></a>
-          //   <a href="#" class="fa fa-twitter fa-contact"></a>
-          //   <a href="#" class="fa fa-envelope fa-contact"></a>
-          //   <a href="#" class="fa fa-file-pdf-o fa-contact"></a>
-          // </div>
-        <div id="my-login-button-target" />
         </div>
 
         <div class="row">
@@ -682,13 +723,13 @@ class App extends React.Component {
         </div>
 
         <div class="emergency-contacts">
-          <p>Enter your emergency contacts</p>
-          <form onSubmit={this.handleSubmit}>
+          <p>Enter your Emergency Contact</p>
+          <form onSubmit={this.doSMS}>
             <label>
-              <textarea class="contacts-entry" value={this.state.value} onChange={this.handleChange} placeholder="Enter phone number" />
+              <textarea class="contacts-entry" placeholder="Enter phone number" />
             </label>
             <div>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.doSMS}>
                 <input type="submit" value="Add" />
               </form>
             </div>
