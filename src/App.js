@@ -589,9 +589,14 @@ class App extends React.Component {
                 <label>
                   <textarea class="sentence-entry" value={this.state.value} onChange={this.handleChange} placeholder={this.state.placeholder} />
                 </label>
-                <div>
-                  <input type="submit" value="Submit" />
-                </div>
+                <div class="button-row">
+              <form onSubmit={this.handleSubmit}>
+                <input type="submit" value="Submit" />
+              </form>
+              <form onSubmit={this.handleSubmit}>
+                <input type="submit" value="Plot" />
+              </form>
+            </div>
               </form>
               <form onSubmit={this.handlePlotRequest}>
                 <input type="submit" value="Plot" />
@@ -619,12 +624,9 @@ class App extends React.Component {
             <label>
               <textarea class="contacts-entry" value={this.state.value} onChange={this.handleChange} placeholder="Enter phone number" />
             </label>
-            <div class="button-row">
+            <div>
               <form onSubmit={this.handleSubmit}>
-                <input type="submit" class="add-contacts" value="Submit" />
-              </form>
-              <form onSubmit={this.handleSubmit}>
-                <input type="submit" class="add-contacts" value="Plot" />
+                <input type="submit" value="Add" />
               </form>
             </div>
           </form>
