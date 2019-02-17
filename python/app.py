@@ -1,5 +1,6 @@
 #app.py
 import http.client, urllib.request, urllib.parse, urllib.error, json
+from os.path import isfile
 from flask import Flask, request, jsonify #import main Flask class and request object
 from flask_cors import CORS
 
@@ -7,62 +8,61 @@ app = Flask(__name__) #create the Flask app
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SESSION_TYPE'] = 'filesystem'
 CORS(app)
-
+DATA_FILENAME = "data_sentiment.json"
 def getSentiments(inputJson):
-	print("-" * 50)
-	print(inputJson)
-	print("-" * 50)
-	headers = {
-		# Request headers
-		'Content-Type': 'application/json',
-		'Ocp-Apim-Subscription-Key': '91744f48b62b4c4ea23e4102d0fc282b',
-	}
+    headers = {
+        # Request headers
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': '91744f48b62b4c4ea23e4102d0fc282b',
+    }
 
-	params = urllib.parse.urlencode({
-	})
+    params = urllib.parse.urlencode({
+    })
 
-	try:
-		conn = http.client.HTTPSConnection('westus.api.cognitive.microsoft.com')
-		conn.request("POST", "/text/analytics/v2.0/sentiment?%s" % params, inputJson, headers)
-		response = conn.getresponse()
-		data = json.loads(response.read()) 
-		conn.close()
-		print("-" * 50)
-		print(data)
-		print("-" * 50)
-		textScoreList = data["documents"]
-		print("-" * 50)
-		print(textScoreList)
-		print("-" * 50)
-		addEmojis(textScoreList)
-		return textScoreList
-	except Exception as e:
-		print("-" * 50)
-		print("ERROR: {}".format(e))
-		print("-" * 50)
-		# print("[Errno {0}] {1}".format(e.errno, e.strerror))
+    try:
+        conn = http.client.HTTPSConnection('westus.api.cognitive.microsoft.com')
+        conn.request("POST", "/text/analytics/v2.0/sentiment?%s" % params, inputJson, headers)
+        response = conn.getresponse()
+        data = json.loads(response.read()) 
+        conn.close()
+        textScoreList = data["documents"]
+        #addEmojis(textScoreList)
+        return textScoreList
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
 def getEmoji(score):
-	emoji = "invalid"
-	scoreBounds = {0.2: 'extreme-sad.png', 0.4: 'normal-sad.png', 0.6: 'neutral-face.png', 0.8: "normal-happy.png", 1: "extreme-happy.png"}
-	for scoreIdx in sorted(scoreBounds.keys()):
-		if(score <= scoreIdx):
-			emoji = scoreBounds[scoreIdx]
-			break
-	return emoji
+    emoji = "invalid"
+    scoreBounds = {0.2: 'extreme-sad.png', 0.4: 'normal-sad.png', 0.6: 'neutral-face.png', 0.8: "normal-happy.png", 1: "extreme-happy.png"}
+    for scoreIdx in sorted(scoreBounds.keys()):
+        if(score <= scoreIdx):
+            emoji = scoreBounds[scoreIdx]
+            break
+    return emoji
 
 def addEmojis(textScoreList):
-	for dictObj in textScoreList:
-		dictObj['emoji'] = getEmoji(dictObj['score'])
+    for dictObj in textScoreList:
+        dictObj['emoji'] = getEmoji(dictObj['score'])
 
-@app.route('/get_sentiment', methods=['POST'])
+def addToList(textScoreList):
+	print(textScoreList)
+	with open(DATA_FILENAME, mode='a', encoding='utf-8') as dataFile:
+		for textScore in textScoreList:
+			dataFile.write(str(textScore['score']) + "\n")
+
+@app.route('/get_sentiment', methods=['GET', 'POST'])
 def get_sentiment():
-	# if request.method == 'POST':
-	req_data = request.get_json()
-	response = getSentiments(req_data)#getSentiments(json.dumps(req_data))
-	print(req_data)
-	return jsonify(response)
-
+	if request.method == 'POST':
+		req_data = request.get_json()
+		response = getSentiments(json.dumps(req_data))
+		addToList(response)
+		return jsonify(response)
+	elif request.method == 'GET':
+		response = "invalid"
+		with open(DATA_FILENAME, mode='r', encoding='utf-8') as dataFile:
+			textScores = dataFile.read().split()
+			textScores = [float(textScore) for textScore in textScores]
+			response = jsonify(textScores)
+		return response
 if __name__ == '__main__':
-	app.run(debug=True, port=5000)
-
+   app.run(debug=True, port=5000)
