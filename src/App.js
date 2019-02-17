@@ -51,7 +51,7 @@ class App extends React.Component {
 
     var time_json = "{\"documents\":[";
     var lines = src.text.match( /[^\.!\?]+[\.!\?]+|[^\.!\?]+/g );
-    var i = 1;
+    i = 1;
     lines.forEach(line => {
       console.log(line);
       time_json += "{\"id\": \"" + i + "\","; //.format(i);
@@ -61,7 +61,7 @@ class App extends React.Component {
     });
     console.log(new Date());
     time_json += "]}";
-    return {id: id_json, time: time_json};
+    return {id: id_json, time: time_json, size: lines.length};
   }
 
   handleSubmit(event) {
@@ -480,6 +480,11 @@ class App extends React.Component {
     // alert('An essay was submitted: ' + this.state.value);
     // console.log("Submit clicked");
     this.echo(this.state.value);
+    if (!this.state.value) {
+      document.getElementById("set-emoji-here").innerHTML = "";
+      return;
+    }
+    document.getElementById("set-emoji-here").innerHTML = "Predicted Emoji: ...";
     var src = {text: this.state.value};
     var json = this.buildJSON(src);
     console.log(json);
@@ -494,6 +499,45 @@ class App extends React.Component {
       body: JSON.stringify(json.id)
     });
     console.log(response);
+
+    // location.reload();
+
+    fetch('http://localhost:5000/get_sentiment').then(function(response) { 
+      return response.json();
+    }).then(function(myjson) {
+      var data_vals = myjson['params'];
+      var start = data_vals.length - 1;
+      var count = json.size;
+      var sum = 0;
+      for (var i = 0; i < count; ++i) {
+        sum += data_vals[start - i];
+      }
+      var score = sum / count;
+
+      // var x_happy = new Image();
+      // var happy = new Image();
+      // var sad = new Image();
+      // var x_sad = new Image();
+      // var neutral = new Image();
+
+      var x_happy = "https://snag.gy/r9wmye.jpg"; //"/images/extreme-happy.png";
+      var x_sad = "https://snag.gy/9JAPXE.jpg"; //"/images/extreme-sad.png";
+      var sad = "https://snag.gy/6HjAq8.jpg"; //"/images/normal-sad.png";
+      var happy = "https://snag.gy/TesbGl.jpg"; //"/images/normal-happy.png";
+      var neutral = "https://snag.gy/2pkMvF.jpg"; //"/images/neutral-face.png";
+      
+      var emotional_arr = ['😭', '😔', '😐', '🙂', '😁'];
+      //["&#x1f62D", "&#x1f614", "&#x1f610", "&#x1f642", "&#x1f604"];
+      for (var i = 0; i < emotional_arr.length; ++i) {console.log(emotional_arr[i]);}
+      var emoji = emotional_arr[parseInt((score - 1) / 20)];
+      var obj = document.getElementById("set-emoji-here");
+      var emoji_node = document.createElement("img");
+      emoji_node.src = emoji.src;
+      setTimeout(() => {obj.innerHTML = "Predicted Emoji: " + emoji;}, 1000);
+      // obj.appendChild(emoji_node);
+    });
+
+
     event.preventDefault();
   }
 
@@ -557,6 +601,7 @@ class App extends React.Component {
             <h1>What if you could rethink your emotionally charged messages while using the information meaningfully? </h1>
             <p>ment.ally is a web app that allows you to view the emotions behind the messages you write. Using the data, it graphs your emotions as a visual way to check in on how you are doing. A map integration shows location-based trends in emotions and a texting feature notifies your friends when you seem to be feeling down. </p>
             <p> Looking forward, we hope that this can become a Chrome extension that detects emotionally charged sentences you write in real time and offers alternate suggestions to reduce the chance of unintended miscommunication.</p>
+            <div id="set-emoji-here"></div>
           </div>
         </div>
 
