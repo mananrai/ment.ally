@@ -1,0 +1,96 @@
+.html {
+  height: 100%;
+}
+
+#root {
+  height: 100vh;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: auto;
+  font-size: calc(10px + 2vmin);
+  padding-top: 5rem;
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.intro {
+  padding-left: 10rem;
+  padding-right: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: auto;
+  background-color: #fff;
+  padding-top: 3rem;
+}
+
+.intro p {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 7rem;
+  font-weight: 100;
+  color: #311B92;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.background {
+  min-height: 100%;
+  background-color: #311B92;
+  height: auto;
+  padding-bottom: 0;
+}
+
+.form-wrap {
+  margin-left: 10rem;
+  margin-right: 10rem;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+textarea {
+  width: 50%;
+  height: 500px;
+  padding: 2rem;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 0;
+  background-color: #fff;
+  resize: none;
+  margin-left: 3px;
+  margin-bottom: 2rem;
+}
+
+input[type=submit] {
+  background-color: #6fa1f2;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.map-wrap {
+  background-color: #6fa1f2;
+  padding-top: 2rem;
+  padding-left: 10rem;
+  padding-right: 10rem;
+  padding-bottom: 2rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: auto;
+}
