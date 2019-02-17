@@ -535,8 +535,8 @@ class App extends React.Component {
       <div className="background">
         <div class="intro">
         <h1>ment.ally</h1>
-          <p>Helping induvuduals visualize and track their emotions through the text they write.</p>
-          <div id="my-login-button-target" />
+          <p>Helping individuals visualize and track their emotions through the text they write.</p>
+        <div id="my-login-button-target" />
         </div>
 
         <div class="row">
