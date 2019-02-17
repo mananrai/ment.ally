@@ -106,6 +106,7 @@ class App extends React.Component {
       <div className="background">
         <div class="intro">
           <p>ment.ally</p>
+          <div id="my-login-button-target" />
         </div>
 
         <div class="form-wrap">
@@ -120,9 +121,7 @@ class App extends React.Component {
         </div>
 
         <div class="map-wrap">
-          <p>map here</p>
           <div id="viewDiv"></div>
-          <p>map here</p>
         </div>
       </div>
     );

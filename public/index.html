@@ -64,6 +64,50 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script>
+       window.snapKitInit = function () {
+        var loginButtonIconId = 'my-login-button-target';
+        // Mount Login Button
+        snap.loginkit.mountButton(loginButtonIconId, {
+          clientId: 'c692cfae-165e-49ad-8dd0-85ec612b4751',
+          redirectURI: 'https://ment-ally.firebaseio.com/',
+          scopeList: [
+            'user.display_name',
+            'user.bitmoji.avatar',
+          ],
+          handleResponseCallback: function() {
+            snap.loginkit.fetchUserInfo()
+              .then(data => console.log('User info:', data));
+          },
+        });
+      };
+
+      // Load the SDK asynchronously
+      (function (d, s, id) {
+        var js, sjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://sdk.snapkit.com/js/v1/login.js";
+        sjs.parentNode.insertBefore(js, sjs);
+      }(document, 'script', 'loginkit-sdk'));
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBmmJ2q-bWBA-fW-FOQnkKHuCbIIHZ5V2M",
+        authDomain: "ment-ally.firebaseapp.com",
+        databaseURL: "https://ment-ally.firebaseio.com",
+        projectId: "ment-ally",
+        storageBucket: "",
+        messagingSenderId: "821452087189"
+      };
+      firebase.initializeApp(config);
+      var defaultStorage = firebase.storage();
+      console.log(defaultStorage);
+    </script>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
